@@ -1,0 +1,6 @@
+node_modules
+dist
+.env
+jest.config.*s
+src/
+__tests__
