@@ -1,7 +1,11 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import VideoController from './controllers/VideoController';
 
 const routes = Router();
+
+routes.get('/', (req: Request, res: Response) => {
+  return res.redirect('https://github.com/Fabiopf02/yt_scraper_api#rotas');
+});
 
 routes.get('/videos', VideoController.index);
 routes.get('/search', VideoController.search);
