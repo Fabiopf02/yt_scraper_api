@@ -60,13 +60,21 @@ E acesse http://localhost:3000
 | /tag:tag         | **GET**  | /`String`  | ?limit=`<number>` & page=`<number>`                    |
 | /genre:genre     | **GET**  | /`String`  | ?limit=`<number>` & page=`<number>`                    |
 
+**A rota `/new` recebe uma url no corpo da requisição no formato `JSON`**
+
+```
+{
+    "url": "<link do vídeo>"
+}
+```
+
 ## Paginação
 
 Todas as rotas do tipo **GET** possuem como consulta opcional (para paginação) **_limit_** e **_page_**
+Por padrão os valores são: `limit=10&page=1`
 
 ```
 /videos?limit=<number>&page=<number>
-Por padrão os valores são: limit=10&page=1
 ```
 
 ## Licença
