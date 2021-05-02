@@ -2,7 +2,7 @@
 
 #### _Esta é uma API de coleta de dados de vídeos do YouTube feita em NodeJS_
 
-A API está atualmente disponível em https://ytscraperapi.herokuapp.com/ sendo possível testar as rotas destacadas neste documento.
+A API está atualmente disponível em https://yt-scraper-api.herokuapp.com/ sendo possível testar as rotas destacadas neste documento.
 
 ## Recursos
 
