@@ -38,7 +38,9 @@ export async function filterByChannel(
       .sort(obj)
       .skip(Number(skip))
       .limit(Number(limit));
-    const total = await Video.find({ channel }).countDocuments();
+    const total = await Video.find({
+      channel: { $regex: rgx },
+    }).countDocuments();
 
     res.header('X-Total-Count', String(total));
 

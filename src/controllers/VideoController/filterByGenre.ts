@@ -35,7 +35,7 @@ export async function filterByGenre(req: TRequest, res: Response) {
       .sort(obj)
       .skip(Number(skip))
       .limit(Number(limit));
-    const total = await Video.find({ genre }).countDocuments();
+    const total = await Video.find({ genre: { $regex: rgx } }).countDocuments();
 
     res.header('X-Total-Count', String(total));
 

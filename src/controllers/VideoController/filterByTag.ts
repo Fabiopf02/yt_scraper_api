@@ -30,12 +30,12 @@ export async function filterByTag(req: TRequest, res: Response) {
     const obj = {};
     obj[sortField] = sortValue;
 
-    const videosByTag = await Video.find({ keywords: { $all: list } })
+    const videosByTag = await Video.find({ keywords: { $regex: tag } })
       .sort(obj)
       .skip(Number(skip))
       .limit(Number(limit));
     const total = await Video.find({
-      keywords: { $all: list },
+      keywords: { $regex: tag },
     }).countDocuments();
 
     res.header('X-Total-Count', String(total));
