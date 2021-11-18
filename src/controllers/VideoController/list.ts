@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Video, { VideoDocument } from '../../schemas/Video';
 import { ParamsDictionary } from 'express-serve-static-core';
-import saveLog from '../../services/saveLog';
+import saveLog, { objectToString } from '../../services/saveLog';
 
 interface reqQuery {
   limit: number;
@@ -35,7 +35,7 @@ export async function index(req: TRequest<ParamsDictionary>, res: Response) {
 
     await saveLog(
       req,
-      `listed in the unfiltered list: ${req.query}`,
+      `listed in the unfiltered list: ${objectToString(req.query)}`,
       'success',
     );
 
