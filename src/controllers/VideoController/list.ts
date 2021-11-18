@@ -6,16 +6,29 @@ import saveLog from '../../services/saveLog';
 interface reqQuery {
   limit: number;
   page: number;
+  sortField: number;
+  sortValue: string;
 }
 
 type TRequest<T> = Request<T, any, any, reqQuery>;
 
 export async function index(req: TRequest<ParamsDictionary>, res: Response) {
   try {
-    const { limit = 10, page = 1 } = req.query;
+    const {
+      limit = 10,
+      page = 1,
+      sortField = 'uploadedAt',
+      sortValue = 'asc',
+    } = req.query;
     const skip = Number(limit) * (Number(page) - 1);
 
-    const videos = await Video.find({}).skip(skip).limit(Number(limit));
+    const obj = {};
+    obj[sortField] = sortValue;
+
+    const videos = await Video.find({})
+      .sort(obj)
+      .skip(skip)
+      .limit(Number(limit));
     const total = await Video.find({}).countDocuments();
 
     res.header('X-Total-Count', String(total));

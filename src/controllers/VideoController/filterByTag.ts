@@ -9,6 +9,8 @@ interface IParam {
 interface reqQuery {
   limit: string;
   page: string;
+  sortField: string;
+  sortValue: string;
 }
 
 type TRequest = Request<IParam, any, any, reqQuery>;
@@ -16,12 +18,20 @@ type TRequest = Request<IParam, any, any, reqQuery>;
 export async function filterByTag(req: TRequest, res: Response) {
   try {
     const { tag } = req.params;
-    const { limit = 10, page = 1 } = req.query;
+    const {
+      limit = 10,
+      page = 1,
+      sortField = 'uploadedAt',
+      sortValue = 'asc',
+    } = req.query;
     const skip = Number(limit) * (Number(page) - 1);
 
     const list = tag.split(',');
+    const obj = {};
+    obj[sortField] = sortValue;
 
     const videosByTag = await Video.find({ keywords: { $all: list } })
+      .sort(obj)
       .skip(Number(skip))
       .limit(Number(limit));
     const total = await Video.find({
