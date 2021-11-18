@@ -20,8 +20,8 @@ export async function search(req: TRequest<ParamsDictionary>, res: Response) {
       q,
       limit = 10,
       page = 1,
+      sortField = 'uploadedAt',
       sortValue = 'asc',
-      sortField = 'createdAt',
     } = req.query;
     const skip = Number(limit) * (Number(page) - 1);
 
@@ -35,10 +35,6 @@ export async function search(req: TRequest<ParamsDictionary>, res: Response) {
         { title: { $regex: rgx } },
         { description: { $regex: rgx } },
         { genre: { $regex: rgx } },
-        { videoId: { $regex: rgx } },
-        { videoUrl: { $regex: rgx } },
-        { keywords: { $regex: rgx } },
-        { channelId: { $regex: rgx } },
       ],
     };
 
@@ -47,12 +43,12 @@ export async function search(req: TRequest<ParamsDictionary>, res: Response) {
       .limit(Number(limit))
       .skip(Number(skip));
 
-    const count = await Video.find(findValues).count();
+    const count = await Video.find(findValues).countDocuments();
 
     const queries = objectToString(req.query);
     await saveLog(req, `search: ${queries}`, 'success');
 
-    res.setHeader('count', count);
+    res.header('X-Total-Count', String(count));
 
     return res.json(videos);
   } catch (err) {
