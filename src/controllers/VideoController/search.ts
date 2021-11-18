@@ -29,7 +29,7 @@ export async function search(req: TRequest<ParamsDictionary>, res: Response) {
     const obj = {};
     obj[sortField] = sortValue;
 
-    const videos = await Video.find({
+    const findValues = {
       $or: [
         { channel: { $regex: rgx } },
         { title: { $regex: rgx } },
@@ -40,13 +40,19 @@ export async function search(req: TRequest<ParamsDictionary>, res: Response) {
         { keywords: { $regex: rgx } },
         { channelId: { $regex: rgx } },
       ],
-    })
+    };
+
+    const videos = await Video.find(findValues)
       .sort(obj)
       .limit(Number(limit))
       .skip(Number(skip));
 
+    const count = await Video.find(findValues).count();
+
     const queries = objectToString(req.query);
     await saveLog(req, `search: ${queries}`, 'success');
+
+    res.setHeader('count', count);
 
     return res.json(videos);
   } catch (err) {
