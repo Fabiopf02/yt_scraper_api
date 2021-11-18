@@ -8,16 +8,26 @@ interface ReqQuery {
   q: string;
   limit: string;
   page: string;
+  sortValue: string;
+  sortField: string;
 }
 
 type TRequest<T> = Request<T, any, any, ReqQuery>;
 
 export async function search(req: TRequest<ParamsDictionary>, res: Response) {
   try {
-    const { q, limit = 10, page = 1 } = req.query;
+    const {
+      q,
+      limit = 10,
+      page = 1,
+      sortValue = 'asc',
+      sortField = 'createdAt',
+    } = req.query;
     const skip = Number(limit) * (Number(page) - 1);
 
     const rgx = new RegExp(q, 'i');
+    const obj = {};
+    obj[sortField] = sortValue;
 
     const videos = await Video.find({
       $or: [
@@ -25,8 +35,13 @@ export async function search(req: TRequest<ParamsDictionary>, res: Response) {
         { title: { $regex: rgx } },
         { description: { $regex: rgx } },
         { genre: { $regex: rgx } },
+        { videoId: { $regex: rgx } },
+        { videoUrl: { $regex: rgx } },
+        { keywords: { $regex: rgx } },
+        { channelId: { $regex: rgx } },
       ],
     })
+      .sort(obj)
       .limit(Number(limit))
       .skip(Number(skip));
 
