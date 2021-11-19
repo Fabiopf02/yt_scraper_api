@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
-import Video from '../../schemas/Video';
+import Video, { VideoDocument } from '../../schemas/Video';
 import { ParamsDictionary } from 'express-serve-static-core';
 import saveLog, { objectToString } from '../../services/saveLog';
 import Log from '../../schemas/Log';
+import { FilterQuery } from 'mongoose';
 
 interface ReqQuery {
   q: string;
@@ -29,12 +30,18 @@ export async function search(req: TRequest<ParamsDictionary>, res: Response) {
     const obj = {};
     obj[sortField] = sortValue;
 
-    const findValues = {
+    const findValues: FilterQuery<VideoDocument> = {
       $or: [
         { channel: { $regex: rgx } },
         { title: { $regex: rgx } },
         { description: { $regex: rgx } },
         { genre: { $regex: rgx } },
+        { videoId: { $regex: rgx } },
+        { channelId: { $regex: rgx } },
+        { channelUrl: { $regex: rgx } },
+        { _id: { $regex: rgx } },
+        { keywords: rgx },
+        { thumbnailUrl: { $regex: rgx } },
       ],
     };
 
