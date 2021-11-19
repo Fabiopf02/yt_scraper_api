@@ -39,7 +39,6 @@ export async function search(req: TRequest<ParamsDictionary>, res: Response) {
         { videoId: { $regex: rgx } },
         { channelId: { $regex: rgx } },
         { channelUrl: { $regex: rgx } },
-        { _id: { $regex: rgx } },
         { keywords: rgx },
         { thumbnailUrl: { $regex: rgx } },
       ],
