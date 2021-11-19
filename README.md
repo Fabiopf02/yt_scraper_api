@@ -50,15 +50,15 @@ E acesse http://localhost:3000
 
 ## Rotas
 
-| Rota             | Método   | Parâmetros | Consulta                                               |
-| ---------------- | -------- | ---------- | ------------------------------------------------------ |
-| /videos          | **GET**  | -          | ?limit=`<number>` & page=<number>                      |
-| /video:id        | **GET**  | /`String`  | ?limit=`<number>` & page=`<number>`                    |
-| /new             | **POST** | -          | -                                                      |
-| /search          | **GET**  | -          | ?q=<termo buscado> & limit=`<number>` & page`<number>` |
-| /channel:channel | **GET**  | /`String`  | ?limit=`<number>` & page=`<number>`                    |
-| /tag:tag         | **GET**  | /`String`  | ?limit=`<number>` & page=`<number>`                    |
-| /genre:genre     | **GET**  | /`String`  | ?limit=`<number>` & page=`<number>`                    |
+| Rota             | Método   | Parâmetros | Consulta (opcional)                                                               |
+| ---------------- | -------- | ---------- | ------------------------------------------------------------------------------------------------------ |
+| /videos          | **GET**  | -          | ?limit=`<number>` & page=`<number>` & sortField=`<string>` & sortValue=`<string>`                      |
+| /video:id        | **GET**  | /`String`  | ?limit=`<number>` & page=`<number>` & sortField=`<string>` & sortValue=`<string>`                      |
+| /new             | **POST** | -          | -                                                                                                      |
+| /search          | **GET**  | -          | ?q=`<termo buscado>` & limit=`<number>` & page`<number>` & sortField=`<string>` & sortValue=`<string>` |
+| /channel:channel | **GET**  | /`String`  | ?limit=`<number>` & page=`<number>` & sortField=`<string>` & sortValue=`<string>`                      |
+| /tag:tag         | **GET**  | /`String`  | ?limit=`<number>` & page=`<number>` & sortField=`<string>` & sortValue=`<string>`                      |
+| /genre:genre     | **GET**  | /`String`  | ?limit=`<number>` & page=`<number>` & sortField=`<string>` & sortValue=`<string>`                      |
 
 **A rota `/new` recebe uma url no corpo da requisição no formato `JSON`**
 
@@ -75,6 +75,31 @@ Por padrão os valores são: `limit=10&page=1`
 
 ```
 /videos?limit=<number>&page=<number>
+```
+
+## Formato do retorno
+```
+[
+ {
+   "keywords": string[],
+   "_id": string,
+   "title": string,
+   "description": string,
+   "channel": string,
+   "channelUrl": string,
+   "uploadedAt": Date,
+   "avatarUrl": string,
+   "timeDuration": number,
+   "videoUrl": string,
+   "videoId": string,
+   "thumbnailUrl": string,
+   "genre": string,
+   "channelId": string,
+   "isFamilyFriendly": boolean,
+   "createdAt": Date,
+   "updatedAt": Date,
+  },
+ ]
 ```
 
 ## Licença
